@@ -1,7 +1,7 @@
 {
   "author": "Eldar Gabdullin <eldargab@gmail.com>",
-  "name": "asci-table",
-  "description": "Nice asci table for node.js",
+  "name": "easy-table",
+  "description": "Nice text table for the CLI",
   "version": "0.0.0",
   "repository": {
     "type": "git",
@@ -9,9 +9,5 @@
   },
   "main": "lib/table.js",
   "dependencies": {},
-  "devDependencies": {},
-  "optionalDependencies": {},
-  "engines": {
-    "node": "*"
-  }
+  "devDependencies": {}
 }
