@@ -1,0 +1,17 @@
+{
+  "author": "Eldar Gabdullin <eldargab@gmail.com>",
+  "name": "asci-table",
+  "description": "Nice asci table for node.js",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:eldargab/easy-table.git"
+  },
+  "main": "lib/table.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
