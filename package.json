@@ -8,6 +8,8 @@
     "url": "git://github.com:eldargab/easy-table.git"
   },
   "main": "lib/table.js",
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  }
 }
