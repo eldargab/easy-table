@@ -2,12 +2,13 @@
   "author": "Eldar Gabdullin <eldargab@gmail.com>",
   "name": "easy-table",
   "description": "Nice text table for the CLI",
-  "version": "0.0.0",
+  "keywords": ["table", "text", "cli"],
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com:eldargab/easy-table.git"
+    "url": "https://eldargab@github.com/eldargab/easy-table.git"
   },
-  "main": "lib/table.js",
+  "main": "./lib/table",
   "devDependencies": {
     "mocha": "*",
     "should": "*"
