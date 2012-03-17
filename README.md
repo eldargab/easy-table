@@ -13,6 +13,10 @@ var data = [
     { id: 232323, desc: 'Yet another product', price: 555.55 }
 ]
 
+function pricePrinter(price, len) {
+    return Table.padLeft(price.toFixed(2), len);
+}
+
 var t = new Table;
 
 data.forEach(function (product) {
@@ -22,6 +26,8 @@ data.forEach(function (product) {
     t.newLine();
 });
 
+t.sort(['Price, USD']);
+
 console.log(t.toString());
 ```
 
@@ -30,9 +36,9 @@ The script above will render:
 ```
 Product Id  Description            Price, USD
 ----------  ---------------------  ----------
-123123      Something awesome         1000.00
 245452      Very interesting book       11.45
 232323      Yet another product        555.55
+123123      Something awesome         1000.00
 
 ```
 
@@ -52,6 +58,12 @@ Cell's value rendering occures in two phases. At the first phase `printer`
 function is called to get minimal width required to fit cell correctly, at the
 second phase `printer` function is called to get actual string to render with
 additional `width` parameter supplied.
+
+You can sort a table by calling sort(), and optionally passing in a list of
+column names to sort on (by default uses all columns, in the order first given),
+or a custom comparator function.
+
+Calling .newLine() without adding any cells will insert a divider line (dashes).
 
 ## Installation
 

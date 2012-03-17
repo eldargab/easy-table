@@ -6,13 +6,19 @@ var data = [
     { id: 232323, desc: 'Yet another product', price: 555.55 }
 ]
 
+function pricePrinter(price, len) {
+  return Table.padLeft(price.toFixed(2), len);
+}
+
 var t = new Table;
 
 data.forEach(function (product) {
     t.cell('Product Id', product.id);
     t.cell('Description', product.desc);
-    t.cell('Price, USD', product.price.toFixed(2), Table.padLeft);
+    t.cell('Price, USD', product.price, pricePrinter);
     t.newLine();
 });
+
+t.sort(['Price, USD']);
 
 console.log(t.toString());
