@@ -22,7 +22,7 @@ var t = new Table;
 data.forEach(function (product) {
     t.cell('Product Id', product.id);
     t.cell('Description', product.desc);
-    t.cell('Price, USD', product.price.toFixed(2), Table.padLeft);
+    t.cell('Price, USD', product.price, pricePrinter);
     t.newLine();
 });
 
