@@ -13,14 +13,21 @@ var data = [
     { id: 232323, desc: 'Yet another product', price: 555.55 }
 ]
 
+function pricePrinter(price, len) {
+    return Table.padLeft(price.toFixed(2), len);
+}
+
 var t = new Table;
 
 data.forEach(function (product) {
     t.cell('Product Id', product.id);
     t.cell('Description', product.desc);
-    t.cell('Price, USD', product.price.toFixed(2), Table.padLeft);
+    t.cell('Price, USD', product.price, pricePrinter);
     t.newLine();
 });
+
+t.sort(['Product Id']);
+t.totals(['Price, USD']);
 
 console.log(t.toString());
 ```
@@ -31,9 +38,10 @@ The script above will render:
 Product Id  Description            Price, USD
 ----------  ---------------------  ----------
 123123      Something awesome         1000.00
-245452      Very interesting book       11.45
 232323      Yet another product        555.55
-
+245452      Very interesting book       11.45
+----------  ---------------------  ----------
+TOTALS                                1567.00
 ```
 
 The full signature of `.cell()` method is:
@@ -52,6 +60,15 @@ Cell's value rendering occures in two phases. At the first phase `printer`
 function is called to get minimal width required to fit cell correctly, at the
 second phase `printer` function is called to get actual string to render with
 additional `width` parameter supplied.
+
+You can sort a table by calling sort(), and optionally passing in a list of
+column names to sort on (by default uses all columns, in the order first given),
+or a custom comparator function.
+
+You can add a totals line by calling totals(columns, label), and optionally
+passing in a list of column names to total (by default all columns which contain
+numerical data will be totalled) and a label to use (default 'TOTALS', only
+displayed if the first column is not one which is being totaled).
 
 ## Installation
 
