@@ -19,6 +19,7 @@ data.forEach(function (product) {
     t.newLine();
 });
 
-t.sort(['Price, USD']);
+t.sort(['Product Id']);
+t.totals(['Price, USD']);
 
 console.log(t.toString());

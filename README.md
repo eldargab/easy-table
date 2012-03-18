@@ -26,7 +26,8 @@ data.forEach(function (product) {
     t.newLine();
 });
 
-t.sort(['Price, USD']);
+t.sort(['Product Id']);
+t.totals(['Price, USD']);
 
 console.log(t.toString());
 ```
@@ -36,10 +37,11 @@ The script above will render:
 ```
 Product Id  Description            Price, USD
 ----------  ---------------------  ----------
-245452      Very interesting book       11.45
-232323      Yet another product        555.55
 123123      Something awesome         1000.00
-
+232323      Yet another product        555.55
+245452      Very interesting book       11.45
+----------  ---------------------  ----------
+TOTALS                                1567.00
 ```
 
 The full signature of `.cell()` method is:
@@ -63,7 +65,10 @@ You can sort a table by calling sort(), and optionally passing in a list of
 column names to sort on (by default uses all columns, in the order first given),
 or a custom comparator function.
 
-Calling .newLine() without adding any cells will insert a divider line (dashes).
+You can add a totals line by calling totals(columns, label), and optionally
+passing in a list of column names to total (by default all columns which contain
+numerical data will be totalled) and a label to use (default 'TOTALS', only
+displayed if the first column is not one which is being totaled).
 
 ## Installation
 
