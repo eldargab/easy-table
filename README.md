@@ -53,6 +53,16 @@ function is called to get minimal width required to fit cell correctly, at the
 second phase `printer` function is called to get actual string to render with
 additional `width` parameter supplied.
 
+You can sort a table by calling `.sort()`, and optionally passing in a list of
+column names to sort on (by default uses all columns), or a custom comparator
+function. It is also possible to specify the sort order. For example:
+
+``` javascript
+t.sort(['Price, USD|des']) // will sort in descending order
+t.sort(['Price, USD|asc']) // will sort in ascending order
+t.sort(['Price, USD']) // sorts in ascending order by default
+```
+
 ## Installation
 
 Just install from the npm repository with:

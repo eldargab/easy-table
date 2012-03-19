@@ -80,5 +80,21 @@ describe('Easy table', function () {
     it('test Table.padLeft()', function () {
         Table.padLeft('a', 2).should.equal(' a');
     });
+
+    it('test .sort() function', function () {
+        t.cell('a', 1).newLine();
+        t.cell('a', 2).newLine();
+        t.sort(['a|des']);
+        expectLine(3).be.equal('2');
+        expectLine(4).be.equal('1');
+
+        t.sort(['a']);
+        expectLine(3).be.equal('1');
+        expectLine(4).be.equal('2');
+
+        t.sort(['a|des']).sort(['a|asc']);
+        expectLine(3).be.equal('1');
+        expectLine(4).be.equal('2');
+    });
 });
 
