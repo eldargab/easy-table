@@ -12,7 +12,7 @@ data.forEach(function (product) {
     t.cell('Product Id', product.id);
     t.cell('Description', product.desc);
     t.cell('Price, USD', product.price, function pricePrinter (price, width) {
-    	return Table.padLeft(price.toFixed(2));
+    	return Table.padLeft(price.toFixed(2), width);
     });
     t.newLine();
 });
