@@ -84,17 +84,21 @@ describe('Easy table', function () {
     it('test .sort() function', function () {
         t.cell('a', 1).newLine();
         t.cell('a', 2).newLine();
+        t.cell('a', null).newLine();
+        t.cell('a', undefined).newLine();
         t.sort(['a|des']);
-        expectLine(3).be.equal('2');
-        expectLine(4).be.equal('1');
+        expectLine(3).be.equal('    ');
+        expectLine(4).be.equal('null');
+        expectLine(5).be.equal('2   ');
+        expectLine(6).be.equal('1   ');
 
         t.sort(['a']);
-        expectLine(3).be.equal('1');
-        expectLine(4).be.equal('2');
+        expectLine(3).be.equal('1   ');
+        expectLine(4).be.equal('2   ');
 
         t.sort(['a|des']).sort(['a|asc']);
-        expectLine(3).be.equal('1');
-        expectLine(4).be.equal('2');
+        expectLine(3).be.equal('1   ');
+        expectLine(4).be.equal('2   ');
     });
 });
 
