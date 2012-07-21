@@ -14,7 +14,7 @@ data.forEach(function (product) {
     t.cell('Price, USD', product.price, function pricePrinter (price, width) {
     	return Table.padLeft(price.toFixed(2), width);
     });
-    t.newLine();
+    t.newRow();
 });
 
 t.sort(['Price, USD']);
