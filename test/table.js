@@ -47,7 +47,8 @@ describe('Easy table', function () {
                 callCount++;
                 return obj.toString();
             }
-            t.cell('col', 10, print);
+            t.cell('col', 10, print).newLine().toString();
+            callCount.should.be.equal(2)
         });
 
         it('Second time asking to render actual value passing additional length parameter', function () {
@@ -63,6 +64,15 @@ describe('Easy table', function () {
             t.cell('col', 10, print).newLine();
             expectLine(3).be.equal(' 10 ');
         });
+
+        it('It should be called with `this` set to line', function () {
+            function print (obj) {
+                this.should.have.property('bar')
+                this.should.have.property('baz')
+                return obj.toString()
+            }
+            t.cell('bar', 1, print).cell('baz', 2, print).newLine().toString()
+        })
     });
 
     describe('Should accept column length as 4-th parameter to .cell() method. In such case:', function () {
@@ -71,7 +81,7 @@ describe('Easy table', function () {
             expectLine(3).be.equal('value     ');
         });
 
-        it('If cell value doesn`t fit column width it should be trancated', function () {
+        it('If cell value doesn`t fit it should be trancated', function () {
             t.cell('col', 'A very long value', null, 14).newLine();
             expectLine(3).be.equal('A very long...');
         });
@@ -81,7 +91,7 @@ describe('Easy table', function () {
         Table.padLeft('a', 2).should.equal(' a');
     });
 
-    it('test .sort() function', function () {
+    it('test .sort()', function () {
         t.cell('a', 1).newLine();
         t.cell('a', 2).newLine();
         t.cell('a', null).newLine();
