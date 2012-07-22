@@ -13,7 +13,7 @@ describe('Easy table', function () {
         return t.toString().split('\n')[line].should
     }
 
-    it('test', function () {
+    it('Formating', function () {
         t.cell('First column', '11')
         t.cell('Second column', '12')
         t.newRow()
@@ -65,7 +65,7 @@ describe('Easy table', function () {
             expectLine(3).be.equal(' 10 ')
         })
 
-        it('It should be called with `this` set to line', function () {
+        it('It should be called with `this` set to row', function () {
             function print (obj) {
                 this.should.have.property('bar')
                 this.should.have.property('baz')
@@ -75,23 +75,23 @@ describe('Easy table', function () {
         })
     })
 
-    describe('Should accept column length as 4-th parameter to .cell() method. In such case:', function () {
-        it('Column length should be fixed', function () {
+    describe('Should accept column width as 4-th parameter to .cell() method. In such case:', function () {
+        it('Width is fixed', function () {
             t.cell('col', 'value', null, 10).newRow()
             expectLine(3).be.equal('value     ')
         })
 
-        it('If cell value doesn`t fit it should be trancated', function () {
+        it('If cell`s value doesn`t fit it should be truncated', function () {
             t.cell('col', 'A very long value', null, 14).newRow()
             expectLine(3).be.equal('A very long...')
         })
     })
 
-    it('test Table.padLeft()', function () {
+    it('Table.padLeft()', function () {
         Table.padLeft('a', 2).should.equal(' a')
     })
 
-    it('test .sort()', function () {
+    it('Sorting', function () {
         t.cell('a', 1).newRow()
         t.cell('a', 2).newRow()
         t.cell('a', null).newRow()
@@ -109,6 +109,33 @@ describe('Easy table', function () {
         t.sort(['a|des']).sort(['a|asc'])
         expectLine(3).be.equal('1   ')
         expectLine(4).be.equal('2   ')
+    })
+
+    describe('Totals', function () {
+        it('Default totaling', function () {
+            t.cell('a', 1).newRow()
+            t.cell('a', 2).newRow()
+            t.total('a')
+            expectLine(6).be.equal('\u2211 3')
+        })
+
+        it('Passing aggregator with printer', function () {
+            t.cell('a', 1).newRow()
+            t.cell('a', 3).newRow()
+            t.total('a', Table.aggr.avg)
+            expectLine(6).be.equal('Avg: 2')
+        })
+
+        it('Custom format', function () {
+            t.cell('a', 1).newRow()
+            t.cell('a', 3).newRow()
+
+            t.total('a', Table.aggr.avg, function format (val, width) {
+                val.should.equal(2)
+                return 'Hey!'
+            })
+            expectLine(6).be.equal('Hey!')
+        })
     })
 })
 

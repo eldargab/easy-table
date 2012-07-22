@@ -18,5 +18,8 @@ data.forEach(function (product) {
 })
 
 t.sort(['Price, USD'])
+t.total('Price, USD', Table.aggr.avg, function (val, width) {
+    return Table.padLeft('Avg: ' + val.toFixed(2), width)
+})
 
 console.log(t.toString())
