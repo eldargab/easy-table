@@ -18,7 +18,7 @@ var t = new Table;
 data.forEach(function (product) {
     t.cell('Product Id', product.id);
     t.cell('Description', product.desc);
-    t.cell('Price, USD', product.price.toFixed(2), Table.padLeft);
+    t.cell('Price, USD', product.price, Table.Number(2));
     t.newRow();
 });
 
@@ -53,6 +53,24 @@ function is called to get minimal width required to fit cell correctly, at the
 second phase `printer` function is called to get actual string to render with
 additional `width` parameter supplied.
 
+Example:
+
+``` javascript
+// Coloring too big numbers in red
+require('colors')
+
+function markTooBigs (val, width) {
+    if (width == null) return Table.string(val)
+    return val > 100
+        ? val.toString().red
+        : Table.string(val)
+}
+...
+t.cell('foo', val, markTooBigs)
+```
+
+### Sorting
+
 You can sort a table by calling `.sort()`, and optionally passing in a list of
 column names to sort on (by default uses all columns), or a custom comparator
 function. It is also possible to specify the sort order. For example:
@@ -63,6 +81,57 @@ t.sort(['Price, USD|asc']) // will sort in ascending order
 t.sort(['Price, USD']) // sorts in ascending order by default
 ```
 
+### Totaling
+
+Easy table can help you to calculate and render totals:
+
+``` javascript
+t.total('Price, USD', function accumulator (sum, val, index, length) {
+    sum = sum || 0
+    sum += val
+    return index + 1 == length
+        ? sum / length
+        : sum
+}, function print (val, width) {
+    var s = 'Avg: ' + Table.Number(2)
+    return width == null
+        ? s
+        : Table.padLeft(s, width)
+})
+```
+
+```
+Product Id  Description            Price, USD
+----------  ---------------------  -----------
+245452      Very interesting book        11.45
+232323      Yet another product         555.55
+123123      Something awesome          1000.00
+----------  ---------------------  -----------
+                                   Avg: 522.33
+```
+
+`total()` function also accepts printer via `printer` property of
+accumulator, so it is possible to create reusable aggregations like this:
+
+``` javascript
+var priceAvg = function (sum, val, index, length) {
+    sum = sum || 0
+    sum += val
+    return index + 1 == length
+        ? sum / length
+        : sum
+}
+
+priceAvg.printer = function print (val, width) {
+    var s = 'Avg: ' + Table.Number(2)
+    return width == null
+        ? s
+        : Table.padLeft(s, width)
+}
+
+t.total('Price', priceAvg)
+```
+
 ## Installation
 
 Just install from the npm repository with:
@@ -70,6 +139,10 @@ Just install from the npm repository with:
 ```
 $ npm install easy-table
 ```
+
+## TODO
+
+Full api docs
 
 ## License
 
