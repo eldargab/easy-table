@@ -19,3 +19,5 @@ t.sort(['Price, USD'])
 t.total('Price, USD', Table.aggr.avg, Table.aggr.Printer('Avg:', Table.Number(2)))
 
 console.log(t.toString())
+console.log(t.print())
+console.log(t.printTransposed(' : '))

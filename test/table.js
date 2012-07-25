@@ -30,6 +30,15 @@ describe('Easy table', function () {
         )
     })
 
+    it('Printing transposed version', function () {
+        t.cell('c1', 11).cell('c2', 12).newRow()
+        t.cell('c1', 21).cell('c2', 22).newRow()
+        t.printTransposed(':').should.equal(
+            'c1:11:21\n' +
+            'c2:12:22\n'
+        )
+    })
+
     it('Should adjust column width to fit all contents', function () {
         t.cell('col', '').newRow()
         expectLine(1).be.equal('col')
