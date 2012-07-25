@@ -36,14 +36,31 @@ Product Id  Description            Price, USD
 
 ```
 
+`t.printTransposed()` yields
+
+```
+Product Id  : 245452                : 232323              : 123123
+Description : Very interesting book : Yet another product : Something awesome
+Price, USD  : 11.45                 : 555.55              : 1000.00
+
+```
+
+Finally `t.print()` shows just the rows you pushed and nothing more
+
+```
+245452  Very interesting book    11.45
+232323  Yet another product     555.55
+123123  Something awesome      1000.00
+
+```
+
+### How it works
+
 The full signature of `.cell()` method is:
 
 ``` javascript
 t.cell(column, value, printer, width)
 ```
-
-Where `column` is a column name to print, `value` - cell's value, `printer` is
-a function with which cell's value should be printed, `width` - column's width.
 
 By default column's width is ajusted to fit the longest value, but if specified
 explicitly it is fixed and any non-fitting cell is truncated.
@@ -53,20 +70,89 @@ function is called to get minimal width required to fit cell correctly, at the
 second phase `printer` function is called to get actual string to render with
 additional `width` parameter supplied.
 
-Example:
-
 ``` javascript
-// Coloring too big numbers in red
-require('colors')
+// Example: Coloring too big numbers in red
 
 function markTooBigs (val, width) {
     if (width == null) return Table.string(val)
     return val > 100
-        ? val.toString().red
+        ? '\033[31m' + String(val) + '\033[39m'
         : Table.string(val)
 }
 ...
-t.cell('foo', val, markTooBigs)
+t.cell('foo', 300, markTooBigs)
+```
+
+### Table.printArray(), Table.printObject()
+
+Often you just want to print an array or a simple key-value map.
+`Table.printArray()` and `Table.printObject()` help to instantiate and fill a table for such use cases.
+
+``` javascript
+var array = [
+    {foo: 'foo1', bar: 'bar1'},
+    {foo: 'foo2', bar: 'bar2'}
+]
+
+console.log(Table.printArray(array))
+```
+
+yields
+
+```
+foo   bar
+----  ----
+foo1  bar1
+foo2  bar2
+
+```
+
+we can pass options to override defaut behaviour
+
+``` javascript
+Table.printArray(array, {
+    bar: {
+        name: 'Long field name',
+        printer: Table.padLeft
+    }
+})
+```
+
+```
+foo   Long field name
+----  ---------------
+foo1             bar1
+foo2             bar2
+
+```
+
+or have a full control over rendering
+
+``` javascript
+Table.printArray(array, function (obj, cell) {
+    cell('foo', obj.foo)
+    cell('field', obj.bar)
+}, function (table) {
+    return table.print()
+})
+```
+
+`Table.printObj()` works in the same manner
+
+``` javascript
+var obj = {
+    foo: 'foo',
+    bar: 'bar'
+}
+
+Table.printObj(obj)
+```
+
+yields
+
+```
+foo : foo
+bar : bar
 ```
 
 ### Sorting
@@ -100,6 +186,8 @@ t.total('Price, USD', function accumulator (sum, val, index, length) {
 })
 ```
 
+yields
+
 ```
 Product Id  Description            Price, USD
 ----------  ---------------------  -----------
@@ -111,25 +199,13 @@ Product Id  Description            Price, USD
 ```
 
 `total()` function also accepts printer via `printer` property of
-accumulator, so it is possible to create reusable aggregations like this:
+accumulator, so it is possible to create reusable aggregations like:
 
 ``` javascript
-var priceAvg = function (sum, val, index, length) {
-    sum = sum || 0
-    sum += val
-    return index + 1 == length
-        ? sum / length
-        : sum
-}
-
-priceAvg.printer = function print (val, width) {
-    var s = 'Avg: ' + Table.Number(2)
-    return width == null
-        ? s
-        : Table.padLeft(s, width)
-}
-
-t.total('Price', priceAvg)
+var priceAvg = // some accumulator
+priceAvg.printer = // some printer
+...
+t.total('Price', 300.50, priceAvg)
 ```
 
 ## Installation
@@ -140,9 +216,12 @@ Just install from the npm repository with:
 $ npm install easy-table
 ```
 
-## TODO
+## Misc
 
-Full api docs
+Easy table now has kind of stable api and exposes many of it's internals.
+But in any case it's better to specify strict version numbers in your modules
+especially if you use methods or properties not covered by this readme.
+
 
 ## License
 
