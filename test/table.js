@@ -28,6 +28,11 @@ describe('Easy table', function () {
             '11          ' + t.shift + '12           ' + '\n' +
             '21          ' + t.shift + '22           ' + '\n'
         )
+
+        t.print().should.equal(
+            '11' + t.shift + '12\n' +
+            '21' + t.shift + '22\n'
+        )
     })
 
     it('Printing transposed version', function () {
