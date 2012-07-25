@@ -44,6 +44,43 @@ describe('Easy table', function () {
         )
     })
 
+    it('Table.printArray()', function () {
+        var arr = [{
+            foo: 'fooooooooo', number: 1.345
+        }]
+
+        Table.printArray(arr, {
+            number: {
+                name: 'bar',
+                printer: Table.Number(0)
+            },
+            foo: {
+                width: 5
+            }
+        }).should.equal(
+            'foo  ' + '  ' + 'bar\n' +
+            '-----' + '  ' + '---\n' +
+            'fo...' + '  ' + '  1\n'
+        )
+    })
+
+    it('Table.printObj()', function () {
+        var obj = {
+            foo: 'foo',
+            number: 1.2
+        }
+
+        Table.printObj(obj, {
+            number: {
+                name: 'bar',
+                printer: function () { return 'bar'}
+            }
+        }).should.equal(
+            'foo : foo\n' +
+            'bar : bar\n'
+        )
+    })
+
     it('Should adjust column width to fit all contents', function () {
         t.cell('col', '').newRow()
         expectLine(1).be.equal('col')
