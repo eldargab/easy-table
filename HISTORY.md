@@ -1,3 +1,9 @@
+
+# 0.2.0 / 2012-07-25
+
+  * Add Table.printArray(), Table.printObj()
+  * Add support for printing transposed version (Closes #2)
+
 # 0.1.0
 
   * Added: `.total()` function
