@@ -1,4 +1,9 @@
 
+0.3.0 / 2014-02-02
+==================
+
+  * Change: `printObj()` should print only self properties
+
 # 0.2.0 / 2012-07-25
 
   * Add Table.printArray(), Table.printObj()
