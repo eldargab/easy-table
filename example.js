@@ -15,7 +15,7 @@ data.forEach(function(product) {
   t.newRow()
 })
 
-// t.sort(['Price, USD'])
+t.sort(['Price, USD'])
 // t.total('Price, USD', Table.aggr.avg, Table.aggr.Printer('Avg:', Table.Number(2)))
 
 console.log(t.toString())
