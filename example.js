@@ -21,4 +21,3 @@ t.total('Price, USD', {
 })
 
 console.log(t.toString())
-// console.log(t.printTransposed(' : '))
