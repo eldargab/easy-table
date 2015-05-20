@@ -20,4 +20,14 @@ t.total('Price, USD', {
   printer: Table.number(2)
 })
 
-console.log(t.toString())
+console.log()
+
+t.log()
+
+console.log()
+
+Table.log(data, {price: {printer: Table.number(2)}})
+
+console.log()
+
+Table.log(data[0])
