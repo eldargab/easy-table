@@ -158,14 +158,14 @@ describe('Easy table', function() {
     })
 
     it('Custom', function() {
-      t.cell('a', 1).newRow()
-      t.cell('a', 2).newRow()
-      t.total('a', {
+      t.cell('just column', 1).newRow()
+      t.cell('just column', 2).newRow()
+      t.total('just column', {
         printer: Table.aggr.printer('Avg: ', Table.number()),
         reduce: Table.aggr.avg,
         init: 3
       })
-      expectLine(6).be.equal('Avg: 3')
+      expectLine(6).be.equal('     Avg: 3')
     })
   })
 })
