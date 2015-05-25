@@ -1,28 +1,28 @@
 # Easy table
 
-Simple and nice utility for rendering text tables with javascript.
+Nice utility for rendering text tables with javascript.
 
 ## Usage
 
-``` javascript
-var Table = require('easy-table');
+```javascript
+var Table = require('easy-table')
 
 var data = [
-    { id: 123123, desc: 'Something awesome', price: 1000.00 },
-    { id: 245452, desc: 'Very interesting book', price: 11.45},
-    { id: 232323, desc: 'Yet another product', price: 555.55 }
+  { id: 123123, desc: 'Something awesome', price: 1000.00 },
+  { id: 245452, desc: 'Very interesting book', price: 11.45},
+  { id: 232323, desc: 'Yet another product', price: 555.55 }
 ]
 
-var t = new Table;
+var t = new Table
 
-data.forEach(function (product) {
-    t.cell('Product Id', product.id);
-    t.cell('Description', product.desc);
-    t.cell('Price, USD', product.price, Table.Number(2));
-    t.newRow();
-});
+data.forEach(function(product) {
+  t.cell('Product Id', product.id)
+  t.cell('Description', product.desc)
+  t.cell('Price, USD', product.price, Table.number(2))
+  t.newRow()
+})
 
-console.log(t.toString());
+console.log(t.toString())
 ```
 
 The script above will render:
@@ -33,126 +33,101 @@ Product Id  Description            Price, USD
 123123      Something awesome         1000.00
 245452      Very interesting book       11.45
 232323      Yet another product        555.55
-
 ```
 
-`t.printTransposed()` yields
+`t.printTransposed()` returns
 
 ```
 Product Id  : 245452                : 232323              : 123123
 Description : Very interesting book : Yet another product : Something awesome
 Price, USD  : 11.45                 : 555.55              : 1000.00
-
 ```
 
-Finally `t.print()` shows just the rows you pushed and nothing more
+`t.print()` shows just rows you pushed and nothing more
 
 ```
+123123  Something awesome      1000.00
 245452  Very interesting book    11.45
 232323  Yet another product     555.55
-123123  Something awesome      1000.00
-
 ```
 
 ### How it works
 
-The full signature of `.cell()` method is:
+The full signature of `.cell()` is:
 
-``` javascript
-t.cell(column, value, printer, width)
+```javascript
+t.cell(column, value, printer)
 ```
 
-By default column's width is ajusted to fit the longest value, but if specified
-explicitly it is fixed and any non-fitting cell is truncated.
+Rendering occures in two phases. At the first phase `printer`
+is called to get the minimal width required to fit the cell content.
+At the second phase `printer` is called again with
+additional `width` parameter to get actual string to render.
 
-Cell's value rendering occures in two phases. At the first phase `printer`
-function is called to get minimal width required to fit cell correctly, at the
-second phase `printer` function is called to get actual string to render with
-additional `width` parameter supplied.
+For example, here is how currency printer might be defined
 
 ``` javascript
-// Example: Coloring too big numbers in red
-
-function markTooBigs (val, width) {
-    if (width == null) return Table.string(val)
-    return val > 100
-        ? '\033[31m' + String(val) + '\033[39m'
-        : Table.string(val)
+function currency(val, width) {
+  var str = val.toFixed(2)
+  return width ? str : Table.padLeft(str, width)
 }
-...
-t.cell('foo', 300, markTooBigs)
 ```
 
-### Table.printArray(), Table.printObject()
+### Table.print()
 
-Often you just want to print an array or a simple key-value map.
-`Table.printArray()` and `Table.printObject()` help to instantiate and fill a table for such use cases.
+When you already have an array, explicit table instantiation and iteration
+becomes an overhead. For such cases it is convenient to use `Table.print()`.
 
 ``` javascript
-var array = [
-    {foo: 'foo1', bar: 'bar1'},
-    {foo: 'foo2', bar: 'bar2'}
-]
-
-console.log(Table.printArray(array))
+console.log(Table.print(data))
 ```
 
-yields
-
 ```
-foo   bar
-----  ----
-foo1  bar1
-foo2  bar2
-
+id      desc                   price
+------  ---------------------  ------
+123123  Something awesome      1000
+245452  Very interesting book  11.45
+232323  Yet another product    555.55
 ```
 
-we can pass options to override defaut behaviour
+It is possible to pass some options
 
 ``` javascript
-Table.printArray(array, {
-    bar: {
-        name: 'Long field name',
-        printer: Table.padLeft
-    }
+Table.print(data, {
+  desc: {name: 'description'}
+  price: { printer: Table.number(2)}
 })
 ```
 
 ```
-foo   Long field name
-----  ---------------
-foo1             bar1
-foo2             bar2
-
+id      description            price
+------  ---------------------  -------
+123123  Something awesome      1000.00
+245452  Very interesting book    11.45
+232323  Yet another product     555.55
 ```
 
 or have a full control over rendering
 
 ``` javascript
-Table.printArray(array, function (obj, cell) {
-    cell('foo', obj.foo)
-    cell('field', obj.bar)
-}, function (table) {
-    return table.print()
+Table.print(data, function(item, cell) {
+  cell('Product id', item.id)
+  cell('Price, USD', item.price)
+}, function(table) {
+  return table.print()
 })
 ```
 
-`Table.printObj()` works in the same manner
+`Table.print()` also accepts objects
 
 ``` javascript
-var obj = {
-    foo: 'foo',
-    bar: 'bar'
-}
-
-Table.printObj(obj)
+Table.print(data[0])
 ```
 
-yields
-
 ```
-foo : foo
-bar : bar
+id    : 123123
+desc  : Something awesome
+price : 1000
 ```
 
 ### Sorting
@@ -169,24 +144,43 @@ t.sort(['Price, USD']) // sorts in ascending order by default
 
 ### Totaling
 
-Easy table can help you to calculate and render totals:
+Easy table can help to calculate and render totals:
 
 ``` javascript
-t.total('Price, USD', function accumulator (sum, val, index, length) {
-    sum = sum || 0
-    sum += val
-    return index + 1 == length
-        ? sum / length
-        : sum
-}, function print (val, width) {
-    var s = 'Avg: ' + Table.Number(2)
-    return width == null
-        ? s
-        : Table.padLeft(s, width)
-})
+t.total('Price, USD')
 ```
 
-yields
+```
+Product Id  Description            Price, USD
+----------  ---------------------  ----------
+245452      Very interesting book       11.45
+232323      Yet another product        555.55
+123123      Something awesome         1000.00
+----------  ---------------------  ----------
+                                      1567.00
+```
+
+Here is a more elaborate example
+
+```javascript
+t.total('Price, USD', {
+  printer: Table.aggr.printer('Avg: ', currency),
+  reduce: Table.aggr.avg,
+  init: 0
+})
+
+// or alternatively
+
+t.total('Price, USD', {
+  printer: function(val, width) {
+    return padLeft('Avg: ' + currency(val), width)
+  },
+  reduce: function(acc, val, idx, len) {
+    acc = acc + val
+    return idx + 1 == len ? acc/len : acc
+  }
+})
+```
 
 ```
 Product Id  Description            Price, USD
@@ -198,36 +192,19 @@ Product Id  Description            Price, USD
                                    Avg: 522.33
 ```
 
-`total()` function also accepts printer via `printer` property of
-accumulator, so it is possible to create reusable aggregations like:
-
-``` javascript
-var priceAvg = // some accumulator
-priceAvg.printer = // some printer
-...
-t.total('Price', 300.50, priceAvg)
-```
-
 ## Installation
 
-Just install from the npm repository with:
+via npm
 
 ```
 $ npm install easy-table
 ```
 
-## Misc
-
-Easy table now has kind of stable api and exposes many of it's internals.
-But in any case it's better to specify strict version numbers in your modules
-especially if you use methods or properties not covered by this readme.
-
-
 ## License
 
 (The MIT License)
 
-Copyright (c) 2012 Eldar Gabdullin <eldargab@gmail.com>
+Copyright (c) 2015 Eldar Gabdullin <eldargab@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
