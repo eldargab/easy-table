@@ -44,6 +44,25 @@ describe('Easy table', function() {
     )
   })
 
+  it('Columns ordering', function() {
+    t.cell('1').cell('3').cell('5').newRow()
+    t.cell('1').cell('4').cell('5').newRow()
+    t.cell('2').cell('4').newRow()
+    t.columns().should.eql(['1', '2', '3', '4', '5'])
+
+    t = new Table
+    t.cell('1').cell('3').cell('5').newRow()
+    t.cell('2').cell('4').newRow()
+    t.cell('1').cell('4').cell('5').newRow()
+    t.columns().should.eql(['1', '2', '3', '4', '5'])
+
+    t = new Table
+    t.cell('3').newRow()
+    t.cell('3').cell('4').cell('5').newRow()
+    t.cell('1').cell('2').cell('3').newRow()
+    t.columns().should.eql(['1', '2', '3', '4', '5'])
+  })
+
   xit('Table.printArray()', function() {
     var arr = [{
       foo: 'fooooooooo', number: 1.345
