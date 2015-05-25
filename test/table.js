@@ -63,49 +63,29 @@ describe('Easy table', function() {
     t.columns().should.eql(['1', '2', '3', '4', '5'])
   })
 
-  xit('Table.printArray()', function() {
-    var arr = [{
-      foo: 'fooooooooo', number: 1.345
-    }]
-
-    Table.printArray(arr, {
-      number: {
-        name: 'bar',
-        printer: Table.Number(0)
-      },
-      foo: {
-        width: 5
+  it('Table.print(array)', function() {
+    var arr = [{foo: 'foooo', bar: 1 }]
+    Table.print(arr, {
+      bar: {
+        name: 'baz',
+        printer: Table.padLeft
       }
     }).should.equal(
-      'foo ' + ' ' + 'bar\n' +
-      '-----' + ' ' + '---\n' +
-      'fo...' + ' ' + ' 1\n'
+      'foo  ' + '  ' + 'baz\n' +
+      '-----' + '  ' + '---\n' +
+      'foooo' + '  ' + '  1\n'
     )
   })
 
-  xit('Table.printObj()', function() {
+  it('Table.print(obj)', function() {
     var obj = {
       foo: 'foo',
-      number: 1.2
+      bar: 1
     }
-
-    Table.printObj(obj, {
-      number: {
-        name: 'bar',
-        printer: function() { return 'bar'}
-      }
-    }).should.equal(
+    Table.print(obj).should.equal(
       'foo : foo\n' +
-      'bar : bar\n'
+      'bar : 1  \n'
     )
-  })
-
-  it('Should adjust column width to fit all contents', function() {
-    t.cell('col', '').newRow()
-    expectLine(1).be.equal('col')
-
-    t.cell('col', 'value').newRow()
-    expectLine(1).be.equal('col  ')
   })
 
   describe('Should accept print function as third parameter to .cell() method and call it two times', function () {
@@ -175,6 +155,17 @@ describe('Easy table', function() {
       t.cell('a', 2).newRow()
       t.total('a')
       expectLine(6).be.equal('3')
+    })
+
+    it('Custom', function() {
+      t.cell('a', 1).newRow()
+      t.cell('a', 2).newRow()
+      t.total('a', {
+        printer: Table.aggr.printer('Avg: ', Table.number()),
+        reduce: Table.aggr.avg,
+        init: 3
+      })
+      expectLine(6).be.equal('Avg: 3')
     })
   })
 })
