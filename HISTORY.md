@@ -1,4 +1,22 @@
 
+1.0.0 / 2015-05-25
+==================
+
+This version introduces new simpler and cleaner implementation,
+albeit with some incompatible changes.
+
+  * Added: support for colors
+  * Change: Rename `Table.RightPadder()`, `Table.LeftPadder()`, `Table.Number()` to
+  `Table.rightPadder()`, `Table.leftPadder()` and `Table.number()` respectively
+  * Change: `.total()` signature
+  * Change: `.printTransposed()` signature
+  * Change: `Table.print()` meaning
+  * Removed: `Table.printArray()`, `Table.printObj()`
+  in favor of single `Table.print()` function
+  * Removed: `width` parameter for `.cell()`
+  * Removed: `.newLine()`
+
+
 0.3.0 / 2014-02-02
 ==================
 
