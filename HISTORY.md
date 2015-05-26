@@ -15,6 +15,8 @@ albeit with some incompatible changes.
   in favor of single `Table.print()` function
   * Removed: `width` parameter for `.cell()`
   * Removed: `.newLine()`
+  * Columns now are always ordered according to their positions in rows. Previously that wasn't
+  always the case, for example when some cells were missing in some rows.
 
 
 0.3.0 / 2014-02-02
