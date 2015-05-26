@@ -95,7 +95,7 @@ It is possible to pass some options
 ``` javascript
 Table.print(data, {
   desc: {name: 'description'}
-  price: { printer: Table.number(2)}
+  price: {printer: Table.number(2)}
 })
 ```
 

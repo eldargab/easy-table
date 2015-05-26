@@ -3,7 +3,7 @@
   "name": "easy-table",
   "description": "Nice text table for the CLI",
   "keywords": ["table", "text", "cli"],
-  "version": "0.3.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://eldargab@github.com/eldargab/easy-table.git"
