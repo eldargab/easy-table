@@ -69,7 +69,7 @@ For example, here is how currency printer might be defined
 ``` javascript
 function currency(val, width) {
   var str = val.toFixed(2)
-  return width ? str : Table.padLeft(str, width)
+  return width ? Table.padLeft(str, width) : str
 }
 ```
 
