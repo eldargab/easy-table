@@ -3,7 +3,8 @@ var Table = require('./lib/table')
 var data = [
   { id: 123123, desc: 'Something awesome', price: 1000.00 },
   { id: 245452, desc: 'Very interesting book', price: 11.45},
-  { id: 232323, desc: 'Yet another product', price: 555.55 }
+  { id: 232323, desc: 'Yet another product', price: 555.55 },
+  { id: 332323, desc: '中文产品', price: 555.55 }
 ]
 
 var t = new Table

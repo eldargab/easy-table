@@ -16,5 +16,8 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha -R dot --check-leaks"
+  },
+  "dependencies": {
+    "wcwidth": ">=1.0.1"
   }
 }
