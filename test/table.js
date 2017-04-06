@@ -1,5 +1,5 @@
 var should = require('should')
-var Table = require('../lib/table')
+var Table = require('..')
 
 describe('Easy table', function() {
   var t

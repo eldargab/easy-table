@@ -1,4 +1,4 @@
-var Table = require('./lib/table')
+var Table = require('.')
 
 var data = [
   { id: 123123, desc: 'Something awesome', price: 1000.00 },

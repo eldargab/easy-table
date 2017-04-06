@@ -1,6 +1,10 @@
-module.exports = Table
+var wcwidth
 
-let wcwidth = require('wcwidth');
+try {
+  wcwidth = require('wcwidth')
+} catch(e) {}
+
+module.exports = Table
 
 function Table() {
   this.rows = []
@@ -45,7 +49,8 @@ function string(val) {
 }
 
 function length(str) {
-  return wcwidth(str.replace(/\u001b\[\d+m/g, ''))
+  var s = str.replace(/\u001b\[\d+m/g, '')
+  return wcwidth == null ? s.length : wcwidth(s)
 }
 
 /**
