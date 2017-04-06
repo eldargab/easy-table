@@ -1,4 +1,12 @@
 
+1.1.0 / 2017-04-06
+==================
+
+  * Fix font width calculation for CJK language
+  * Fix `package.main` for TypeScript (Closes #14)
+  * Example of a currency printer function in readme.md was misleading
+  * Add note about columns order
+
 1.0.0 / 2015-05-25
 ==================
 
