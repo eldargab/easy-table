@@ -1,3 +1,4 @@
+var ansiRegex = require('ansi-regex')
 var wcwidth
 
 try {
@@ -49,7 +50,7 @@ function string(val) {
 }
 
 function length(str) {
-  var s = str.replace(/\u001b\[\d+m/g, '')
+  var s = str.replace(ansiRegex(), '')
   return wcwidth == null ? s.length : wcwidth(s)
 }
 
