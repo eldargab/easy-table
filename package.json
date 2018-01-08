@@ -2,7 +2,11 @@
   "author": "Eldar Gabdullin <eldargab@gmail.com>",
   "name": "easy-table",
   "description": "Nice text table for the CLI",
-  "keywords": ["table", "text", "cli"],
+  "keywords": [
+    "table",
+    "text",
+    "cli"
+  ],
   "version": "1.1.0",
   "repository": {
     "type": "git",
@@ -19,5 +23,8 @@
   },
   "optionalDependencies": {
     "wcwidth": ">=1.0.1"
+  },
+  "dependencies": {
+    "ansi-regex": "^3.0.0"
   }
 }
