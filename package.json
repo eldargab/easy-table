@@ -10,7 +10,7 @@
   "version": "1.1.1",
   "repository": {
     "type": "git",
-    "url": "https://eldargab@github.com/eldargab/easy-table.git"
+    "url": "https://github.com/eldargab/easy-table.git"
   },
   "main": "./table.js",
   "devDependencies": {
