@@ -13,6 +13,7 @@
     "url": "https://github.com/eldargab/easy-table.git"
   },
   "main": "./table.js",
+  "types": "./table.d.ts",
   "devDependencies": {
     "mocha": "*",
     "should": "*"
