@@ -1,4 +1,4 @@
-var ansiRegex = require('ansi-regex')
+var ANSI_REGEX = require('ansi-regex')()
 var wcwidth
 
 try {
@@ -50,7 +50,7 @@ function string(val) {
 }
 
 function length(str) {
-  var s = str.replace(ansiRegex(), '')
+  var s = str.replace(ANSI_REGEX, '')
   return wcwidth == null ? s.length : wcwidth(s)
 }
 

@@ -7,7 +7,7 @@
     "text",
     "cli"
   ],
-  "version": "1.1.1",
+  "version": "1.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/eldargab/easy-table.git"
@@ -15,17 +15,17 @@
   "main": "./table.js",
   "types": "./table.d.ts",
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "mocha": "^9.1.2",
+    "should": "^13.2.3"
   },
   "license": "MIT",
   "scripts": {
     "test": "mocha -R dot --check-leaks"
   },
   "optionalDependencies": {
-    "wcwidth": ">=1.0.1"
+    "wcwidth": "^1.0.1"
   },
   "dependencies": {
-    "ansi-regex": "^6.0.1"
+    "ansi-regex": "^5.0.1"
   }
 }

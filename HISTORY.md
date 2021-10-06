@@ -1,3 +1,8 @@
+1.2.0 / 2021-10-06
+==================
+
+  * Bump `ansi-regex` to `5.0.1` (Resolves [CVE-2021-3807](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3807)) 
+  * Include TypeScript types
 
 1.1.1 / 2018-01-08
 ==================
