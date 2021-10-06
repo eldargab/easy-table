@@ -12,6 +12,11 @@
     "type": "git",
     "url": "https://github.com/eldargab/easy-table.git"
   },
+  "files": [
+    "table.js",
+    "table.d.ts",
+    "example.js"
+  ],
   "main": "./table.js",
   "types": "./table.d.ts",
   "devDependencies": {
